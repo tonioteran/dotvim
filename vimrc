@@ -42,4 +42,5 @@ set number
 nnoremap ; :
 inoremap jj <ESC>
 
-
+vmap <leader>y :w! /tmp/vitmp<CR>
+nmap <leader>p :r! cat /tmp/vitmp<CR>
