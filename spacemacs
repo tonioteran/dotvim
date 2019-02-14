@@ -31,6 +31,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     vimscript
      csv
      yaml
      markdown
@@ -51,7 +52,7 @@ values."
      emacs-lisp
      extra-langs
      git
-     org
+     ;; org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -320,34 +321,39 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   "Set jk as custom escape key sequence"
-  (setq-default evil-escape-key-sequence "jk")
+  (setq-default
+   evil-escape-key-sequence "jk"
+   evil-escape-unordered-key-sequence "true")
+  "Change ; to : in normal mode"
+  (with-eval-after-load 'evil-maps
+    (define-key evil-motion-state-map (kbd ";") 'evil-ex))
 
   "Add paths to org files here"
-  (setq org-agenda-files (list "~/org/work.org"
-                               "~/org/goals.org"
-                               "~/org/home.org"
-                               "~/org/personal.org"))
-  ;; wraps the lines in org-mode
-  (setq org-startup-truncated nil)
+  ;; (setq org-agenda-files (list "~/org/work.org"
+  ;;                              "~/org/goals.org"
+  ;;                              "~/org/home.org"
+  ;;                              "~/org/personal.org"))
+  ;; ;; wraps the lines in org-mode
+  ;; (setq org-startup-truncated nil)
 
-;;   (setq org-todo-keywords
-;;         '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+  ;; (setq org-todo-keywords
+  ;;       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 
-  (setq org-todo-keywords
-        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-                (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+  ;; (setq org-todo-keywords
+  ;;       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+  ;;               (sequence "WAIT(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
-  (setq org-todo-keyword-faces
-        (quote (("TODO" :foreground "red" :weight bold)
-                ("NEXT" :foreground "blue" :weight bold)
-                ("DONE" :foreground "forest green" :weight bold)
-                ("WAIT" :foreground "orange" :weight bold)
-                ("HOLD" :foreground "magenta" :weight bold)
-                ("CANCELLED" :foreground "forest green" :weight bold)
-                ("MEETING" :foreground "forest green" :weight bold))))
+  ;; (setq org-todo-keyword-faces
+  ;;       (quote (("TODO" :foreground "red" :weight bold)
+  ;;               ("NEXT" :foreground "blue" :weight bold)
+  ;;               ("DONE" :foreground "forest green" :weight bold)
+  ;;               ("WAIT" :foreground "orange" :weight bold)
+  ;;               ("HOLD" :foreground "magenta" :weight bold)
+  ;;               ("CANCELLED" :foreground "forest green" :weight bold)
+  ;;               ("MEETING" :foreground "forest green" :weight bold))))
 
-  ;; This is necessary to properly use BibTex references in org mode
-  (setq org-latex-pdf-process '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
+  ;; ;; This is necessary to properly use BibTex references in org mode
+  ;; (setq org-latex-pdf-process '("latexmk -pdflatex='pdflatex -interaction nonstopmode' -pdf -bibtex -f %f"))
 
   )
 ;; Do not write anything past this comment. This is where Emacs will
@@ -359,7 +365,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit with-editor csv-mode disaster company-c-headers cmake-mode clang-format thrift stan-mode scad-mode qml-mode matlab-mode arduino-mode yaml-mode julia-repl julia-mode flycheck-julia flycheck auctex-latexmk org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core mmm-mode markdown-toc markdown-mode gh-md yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline slim-mode shell-pop scss-mode sass-mode restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multi-term move-text macrostep lorem-ipsum live-py-mode linum-relative link-hint less-css-mode indent-guide hydra hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump diminish define-word cython-mode company-web web-completion-data company-statistics company-auctex company-anaconda company column-enforce-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
+    (vimrc-mode dactyl-mode smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit with-editor csv-mode disaster company-c-headers cmake-mode clang-format thrift stan-mode scad-mode qml-mode matlab-mode arduino-mode yaml-mode julia-repl julia-mode flycheck-julia flycheck auctex-latexmk org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core mmm-mode markdown-toc markdown-mode gh-md yapfify xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline slim-mode shell-pop scss-mode sass-mode restart-emacs request rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multi-term move-text macrostep lorem-ipsum live-py-mode linum-relative link-hint less-css-mode indent-guide hydra hy-mode dash-functional hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot fuzzy flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump diminish define-word cython-mode company-web web-completion-data company-statistics company-auctex company-anaconda company column-enforce-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

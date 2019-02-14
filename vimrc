@@ -40,7 +40,8 @@ set wrap
 set number
 
 nnoremap ; :
-inoremap jj <ESC>
+inoremap jk <ESC>
+inoremap kj <ESC>
 
 vmap <leader>y :w! /tmp/vitmp<CR>
 nmap <leader>p :r! cat /tmp/vitmp<CR>
